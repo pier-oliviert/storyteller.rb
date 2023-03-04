@@ -1,4 +1,4 @@
-require "story_teller/version"
+require_relative "lib/story_teller/version"
 
 Gem::Specification.new do |s|
   s.name        = "story_teller"

@@ -3,10 +3,11 @@ module StoryTeller
     module_function
 
     MAJOR = 0
-    MINOR = 1
+    MINOR = 0
+    PATCH = 1
 
     def to_s
-      [MAJOR, MINOR].join(".")
+      [MAJOR, MINOR, PATCH].join(".")
     end
   end
 end

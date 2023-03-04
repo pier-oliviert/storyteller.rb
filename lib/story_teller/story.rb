@@ -1,6 +1,7 @@
+require "story_teller/message"
+
 class StoryTeller::Story
-  attr_accessor :timestamp
-  attr_reader :attributes, :message, :chapter
+  attr_reader :attributes, :message, :chapter, :timestamp
 
   def initialize(message: "", chapter: nil, **data)
     self.timestamp = Time.now.utc
@@ -14,9 +15,12 @@ class StoryTeller::Story
       timestamp: timestamp.strftime("%s%N"),
       message: message.render(attributes),
       data: {
-        message: attributes,
-        chapter: chapter.attributes
+        story: attributes,
+        chapter: chapter&.attributes
       }
     }
   end
+
+  private
+  attr_writer :timestamp, :message, :attributes, :chapter
 end

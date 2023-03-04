@@ -1,4 +1,3 @@
-
 # Your application has a story to tell
 
 StoryTeller is a library to let you create meaningful messages that tells a story about how your application behave in production. You create "stories" by generating structured logs that shares context. Since this gem is about telling stories, then let's use one to illustrate how using StoryTeller can help you understand what goes on in your application.
@@ -14,7 +13,7 @@ class PurchaseController < ApplicationController
   def create
     valuable = Valuable.buy(user: current_user, product: Product.find(params[:item_id]))
     if valuable.errors.any?
-      StoryTeller.analytic("purchased.failed",
+      StoryTeller.info("purchased.failed",
         user_id: current_user.id
       )
     end
@@ -51,16 +50,23 @@ class SendSomethingValuableJob < ActiveJob
 end
 ```
 
-This workflow is spread between a request orchestrated by a user, and a job being dispatched to a sidekiq job. Here's the stories that get generated.
+## Structured Logging, with a little extra
 
-```
-{}
-{}
-{}
-```
 
-There are a couple of neat things happening with that. First, even though the whole flow is disconnected, the logs are connected through an implicit chapter generated for you.
+## Logs and Exception, side by side
+Most application uses an error logging tool that allows them to track the exception that occurs during the lifetime of an application. However, it's not always easy to map your logs with your error tracking.
 
-Also, chapter are embeddable by default. It's helpful when a request comes in, and the controller's job is to handle more than 1 feature at once. Obviously, when you start working on your project, things are pretty linear, but as projects grow, it often turns out that endpoints get coupled with multiple features.
+By having the logs include your error, you can still use the error logging tool you love, but you can also find a better history as to why that exception rose in the first place. Yes, backtrace are useful, but if you're logging the states of some objects, or the conditions that led to the exception, the error becomes much easier to diagnose.
 
-This is normal, but if you want to organize your logs into subset, you can do so by specifying a chapter.
+## Tag logs with chapters
+Chapters is how StoryTeller groups logs, and exception, together.
+
+## Built for development, ready for production
+Your production logs is most likely ingested, parsed and stored somewhere. For a machine, reading a bunch of JSON output is perfect but for our human eyes, it can be overwhelming. StoryTeller comes with different formatters that allows you to configure the output of your log based on the environment you're in.
+
+The development environment has a bunch of optimization to keep your log readable as you work on your feature. The same log that you generate for yourself in development, is then formatted in production to the format you need it to be.
+
+Same code, different use cases.
+
+StoryTeller come with builtin tools that allow you to get the most out of your log. 
+

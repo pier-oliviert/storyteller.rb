@@ -1,5 +1,4 @@
-class StoryTeller::Levels
+module StoryTeller::Levels
   INFO = "info"
-  ANALYTIC = "analytic"
   ERROR = "error"
 end
