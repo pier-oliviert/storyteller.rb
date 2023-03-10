@@ -1,5 +1,9 @@
 require "action_view/log_subscriber"
 require "action_controller/log_subscriber"
+require "action_mailer/log_subscriber"
+require "active_job/log_subscriber"
+require "active_storage/log_subscriber"
+require "active_record/log_subscriber"
 require "tempfile"
 
 module StoryTeller
