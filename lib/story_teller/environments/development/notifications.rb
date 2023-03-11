@@ -27,6 +27,11 @@ module StoryTeller::Notifications
       duration: event.duration.round,
       duration_explained: additions.join(" | ")
     )
+
+    # This newline output is to separate logs from one action to another.
+    # it is only useful in dev to give the user an easier time to browse through
+    # their log
+    STDOUT << "\n"
   end
 
   ActiveSupport::Notifications.subscribe("start_processing.action_controller") do |event|

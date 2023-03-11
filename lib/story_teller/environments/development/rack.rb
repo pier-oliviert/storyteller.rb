@@ -22,11 +22,6 @@ class StoryTeller::Rack < ::ActionDispatch::DebugExceptions
   ensure
     ActiveSupport::LogSubscriber.flush_all!
     StoryTeller::Book.clear!
-
-    # This newline output is to separate logs from one action to another.
-    # it is only useful in dev to give the user an easier time to browse through
-    # their log
-    STDOUT << "\n"
   end
 
   private
