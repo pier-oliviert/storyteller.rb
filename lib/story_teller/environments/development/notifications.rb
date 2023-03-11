@@ -11,7 +11,7 @@ module StoryTeller::Notifications
       status = ::ActionDispatch::ExceptionWrapper.status_code_for_exception(exception_class_name)
     end
 
-    color_code = if status > 399
+    color_code = if status.to_i > 399
       "\e[1;31m%{status}\e[0m"
     else
       "\e[1m%{status}\e[0m"
