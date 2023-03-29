@@ -25,7 +25,7 @@ module StoryTeller
         end
       end
 
-      @formatter.write(message.to_s, **data)
+      @formatter.write(StoryTeller::Story.new(message: message.to_s, **data))
 
       nil
     end
