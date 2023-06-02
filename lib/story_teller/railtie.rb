@@ -10,10 +10,18 @@ module StoryTeller
   class Railtie < ::Rails::Railtie
     class ProtectedNameError < StandardError; end
 
-    case
+    env_module = case
     when Rails.env.development?
-      StoryTeller.include(StoryTeller::Environments::Development)
+      StoryTeller::Environments::Development
+    when Rails.env.staging?
+      StoryTeller::Environments::Staging
+    when Rails.env.test?
+      StoryTeller::Environments::Test
+    when Rails.env.production?
+      StoryTeller::Environments::Production
     end
+
+    StoryTeller.include(env_module)
 
     config.story_teller = StoryTeller.config
 

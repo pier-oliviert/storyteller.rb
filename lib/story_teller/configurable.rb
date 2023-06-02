@@ -1,5 +1,3 @@
-require "ostruct"
-
 module StoryTeller::Configurable
   attr_reader :formatters, :log_formatter, :warn_console_user
 

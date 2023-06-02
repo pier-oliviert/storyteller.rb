@@ -10,3 +10,4 @@ class StoryTeller::Middleware
     end
   end
 end
+

@@ -71,6 +71,9 @@ module StoryTeller
   end
 end
 
+ST = StoryTeller
+
 if defined?(::Rails::Engine)
   require "story_teller/railtie"
 end
+

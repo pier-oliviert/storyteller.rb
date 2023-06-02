@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    storyteller (0.1)
+    story_teller (0.0.1)
 
 GEM
   remote: https://rubygems.org/
@@ -72,16 +72,21 @@ GEM
       minitest (>= 5.1)
       tzinfo (~> 2.0)
     builder (3.2.4)
-    byebug (11.1.3)
     concurrent-ruby (1.2.0)
     connection_pool (2.3.0)
     crass (1.0.6)
     date (3.3.3)
+    debug (1.7.1)
+      irb (>= 1.5.0)
+      reline (>= 0.3.1)
     erubi (1.12.0)
     globalid (1.1.0)
       activesupport (>= 5.0)
     i18n (1.12.0)
       concurrent-ruby (~> 1.0)
+    io-console (0.6.0)
+    irb (1.6.3)
+      reline (>= 0.3.0)
     loofah (2.19.1)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
@@ -141,6 +146,8 @@ GEM
     rake (13.0.6)
     redis-client (0.12.1)
       connection_pool
+    reline (0.3.2)
+      io-console (~> 0.5)
     sidekiq (7.0.3)
       concurrent-ruby (< 2)
       connection_pool (>= 2.3.0)
@@ -159,10 +166,10 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  byebug
+  debug
   rails (~> 7.0)
   sidekiq (~> 7.0)
-  storyteller!
+  story_teller!
 
 BUNDLED WITH
    2.1.4
