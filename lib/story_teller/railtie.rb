@@ -22,8 +22,8 @@ module StoryTeller
     end
 
     StoryTeller.include(env_module)
-
     config.story_teller = StoryTeller.config
+
 
     # Detaching the default ones from Rails
     initializer "story_teller.log_subscribers" do |app|
@@ -34,24 +34,6 @@ module StoryTeller
       ::ActiveJob::LogSubscriber.detach_from :active_job
       ::ActiveStorage::LogSubscriber.detach_from :active_storage
       ::ActiveRecord::LogSubscriber.detach_from :active_record
-    end
-
-    initializer "story_teller.logger" do |app|
-      Rails.logger = StoryTeller::Logger.new(formatter: app.config.story_teller.log_formatter, log_level: app.config.log_level)
-    end
-
-    initializer "story_teller.middlewares" do |app|
-      ::ActionController::Base.use(StoryTeller::Middleware)
-
-      app.config.middleware.insert_before(
-        ActionDispatch::ActionableExceptions,
-        StoryTeller::Rack, 
-        app,
-        app.config.debug_exception_response_format
-      )
-
-      app.config.middleware.delete Rails::Rack::Logger
-      app.config.middleware.delete ::ActionDispatch::DebugExceptions
     end
 
     initializer "story_teller.finalize" do |app|

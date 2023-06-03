@@ -16,4 +16,8 @@ module StoryTeller::Configurable
       log_formatter
     ]
   end
+
+  def railtie(railtie)
+    raise NotImplementedError
+  end
 end
