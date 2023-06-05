@@ -10,20 +10,7 @@ module StoryTeller
   class Railtie < ::Rails::Railtie
     class ProtectedNameError < StandardError; end
 
-    env_module = case
-    when Rails.env.development?
-      StoryTeller::Environments::Development
-    when Rails.env.staging?
-      StoryTeller::Environments::Staging
-    when Rails.env.test?
-      StoryTeller::Environments::Test
-    when Rails.env.production?
-      StoryTeller::Environments::Production
-    end
-
-    StoryTeller.include(env_module)
     config.story_teller = StoryTeller.config
-
 
     # Detaching the default ones from Rails
     initializer "story_teller.log_subscribers" do |app|
@@ -34,6 +21,11 @@ module StoryTeller
       ::ActiveJob::LogSubscriber.detach_from :active_job
       ::ActiveStorage::LogSubscriber.detach_from :active_storage
       ::ActiveRecord::LogSubscriber.detach_from :active_record
+    end
+
+    initializer "story_teller.configuration" do |app|
+      require "story_teller/environments/#{Rails.env}"
+      StoryTeller.config.finalize!(app, self.class)
     end
 
     initializer "story_teller.finalize" do |app|

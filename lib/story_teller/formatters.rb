@@ -12,7 +12,6 @@ class StoryTeller::Formatters
     def initialize(name:, output:)
       @name = name
       @output = output
-      config
     end
 
     def replace_output!(new_output)

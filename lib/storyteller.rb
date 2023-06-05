@@ -1,5 +1,5 @@
 module StoryTeller
-  require "story_teller/configurable"
+  require "story_teller/configuration"
   require "story_teller/levels"
   require "story_teller/logger"
   require "story_teller/book"
@@ -7,7 +7,6 @@ module StoryTeller
   require "story_teller/chapter"
   require "story_teller/story"
   require "story_teller/formatters"
-  require "story_teller/environments"
   require "story_teller/console"
 
   class AlreadyInitializedError < StandardError; end
@@ -31,8 +30,9 @@ module StoryTeller
 
   def config(&block)
     @config ||= StoryTeller::Configuration.new
-
-    block.call(@config) if block_given?
+    if block.present?
+      @config.procs << block
+    end
 
     @config
   end

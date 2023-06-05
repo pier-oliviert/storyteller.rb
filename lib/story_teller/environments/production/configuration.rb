@@ -1,21 +1,23 @@
-class StoryTeller::Configuration
-  include StoryTeller::Configurable
+StoryTeller.config do |app, railtie|
+  ::ActionController::Base.use(StoryTeller::Middleware)
 
-  StoryTeller::Railtie.initializer "story_teller.logger" do |app|
-    Rails.logger = StoryTeller::Logger.new(formatter: app.config.story_teller.log_formatter, log_level: app.config.log_level)
-  end
+  app.config.middleware.insert_after(
+    ActionDispatch::RemoteIp,
+    StoryTeller::Rack,
+    app,
+    app.config.debug_exception_response_format
+  )
 
-  StoryTeller::Railtie.initializer "story_teller.middlewares" do |app|
-    ::ActionController::Base.use(StoryTeller::Middleware)
+  app.config.middleware.delete Rails::Rack::Logger
+  app.config.middleware.delete ::ActionDispatch::DebugExceptions
 
-    app.config.middleware.insert_after(
-      ActionDispatch::RemoteIp,
-      StoryTeller::Rack,
-      app,
-      app.config.debug_exception_response_format
-    )
+  app.config.story_teller.log_formatter = StoryTeller::Formatters::Structured.new(
+    name: StoryTeller::Levels::INFO,
+    output: STDOUT
+  )
+  app.config.story_teller.formatters = [
+    app.config.story_teller.log_formatter
+  ]
 
-    app.config.middleware.delete Rails::Rack::Logger
-    app.config.middleware.delete ::ActionDispatch::DebugExceptions
-  end
+  Rails.logger = StoryTeller::Logger.new(formatter: app.config.story_teller.log_formatter, log_level: app.config.log_level)
 end
